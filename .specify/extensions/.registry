@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "extensions": {
+    "system-change": {
+      "version": "0.1.0",
+      "source": "local",
+      "manifest_hash": "sha256:4bf50a4e9e38f2f534df022fd469e12c34410924261f56630d7e61aa1130e38a",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {},
+      "registered_skills": [
+        "speckit-system-change-classify",
+        "speckit-system-change-apply"
+      ],
+      "installed_at": "2026-09-28T11:59:10.988985+00:00"
+    }
+  }
+}

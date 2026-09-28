@@ -1,0 +1,41 @@
+id: log-collector
+name: Request events → the platform's log collector
+version: 1
+status: planned
+
+provider: bookmarks-api
+consumer: whatever runs the process and collects its stdout
+
+interface:
+  kind: stdout-json-lines
+  format: UTF-8, one JSON object per line, no multi-line output
+  schema:
+    event:      { type: string, const: http.request }
+    requestId:  { type: string }
+    method:     { type: string }
+    route:      { type: string }        # the route template, e.g. /bookmarks/:id
+    status:     { type: integer }       # HTTP status code
+    durationMs: { type: number }
+    at:         { type: string, format: date-time }
+
+guarantees:
+  - Exactly one event per request, written after the response is sent.
+  - No raw path, query string, request body or response body (standards/logging.md).
+
+compatibility: >
+  Adding a field is allowed within version 1. Removing or renaming a field, or
+  changing its type, is version 2 and needs an ADR.
+
+failure_behaviour: >
+  If writing the line fails, the response is unaffected. Observability never fails
+  a request.
+
+capabilities:
+  - observability
+decisions:
+  - "0002"
+
+verification:
+  - npm test  # asserts the exact key set of a parsed line
+
+owner: bookmarks-api maintainers

@@ -1,0 +1,26 @@
+id: production
+name: Production runtime
+version: 1
+purpose: >
+  Where the Bookmarks API serves real users.
+
+runtime:
+  node: ">=22"
+
+capabilities:
+  - observability@1
+
+integrations:
+  - log-collector@1
+
+constraints:
+  - No runtime dependencies are installed (ADR 0001).
+  - stdout is collected line by line and kept for at least 30 days.
+
+setup:
+  - owned by the platform team; not in this repository
+
+verification:
+  - npm test
+
+owner: platform team

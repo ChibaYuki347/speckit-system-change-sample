@@ -1,0 +1,29 @@
+# Capability — what the system can do, shared by many features.
+# This file describes the CURRENT state. Keep it true; git keeps the history.
+# Features depend on it by writing `requires: <id>@<version>` in their spec.
+
+id: <capability-id>          # kebab-case, stable
+name: <Human-readable name>
+version: 1                   # bump only when an existing `requires: <id>@N` would break
+status: planned              # planned | active | deprecated
+
+purpose: >
+  <One sentence: what this lets features and people do.>
+
+provides:                    # what a feature may rely on
+  - <promise-1>
+
+not_provided:                # say what it does NOT do, so nobody assumes it
+  - <non-goal>
+
+implemented_by:
+  integrations: []           # <id>@<version> under engineering/integrations/
+  code: []                   # paths in this repository
+
+consumers: []                # features, teams or agents that rely on it
+decisions: []                # ADR numbers that explain the choices, e.g. "0002"
+
+verification:                # automated checks that prove it still works
+  - <command or test>
+
+owner: <team or role>

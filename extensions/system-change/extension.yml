@@ -1,0 +1,43 @@
+schema_version: "1.0"
+
+extension:
+  id: system-change
+  name: "System Change"
+  version: "0.1.0"
+  description: "Route work that is not a feature spec: classify a request as Feature or System Change, then draft the ADR, capability, contract and environment files it needs."
+  category: "process"
+  effect: "read-write"
+  author: "Yuki Chiba"
+  license: MIT
+
+requires:
+  speckit_version: ">=1.0.0"
+
+provides:
+  commands:
+    - name: speckit.system-change.classify
+      file: commands/speckit.system-change.classify.md
+      description: "Classify a request as a Feature Change or a System Change, and list the engineering/ files to create or update"
+    - name: speckit.system-change.apply
+      file: commands/speckit.system-change.apply.md
+      description: "Create or update the engineering/ files listed in a System Change classification, and write its enabling tasks"
+
+  templates:
+    - name: adr-template
+      file: templates/adr-template.md
+      description: "Architecture decision record"
+    - name: capability-template
+      file: templates/capability-template.yaml
+      description: "What the system can do (current state)"
+    - name: contract-template
+      file: templates/contract-template.yaml
+      description: "How the system connects to one external tool or service (current state)"
+    - name: environment-template
+      file: templates/environment-template.yaml
+      description: "What must be true where the system runs (desired state)"
+
+tags:
+  - "process"
+  - "adr"
+  - "architecture"
+  - "platform"

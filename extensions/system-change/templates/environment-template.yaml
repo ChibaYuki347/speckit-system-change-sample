@@ -1,0 +1,30 @@
+# Environment — what must be TRUE where the system runs (desired state).
+# Not a manual. Setup steps live in code (dev container, script, pipeline);
+# list where they are under `setup`. If this file starts to read like
+# instructions, move the instructions into code.
+
+id: <environment-id>         # development | ci | production | ...
+name: <Human-readable name>
+version: 1                   # bump when a feature or tool that relied on it would break
+purpose: >
+  <Who uses this environment, and for what.>
+
+runtime:
+  <runtime>: "<version>"
+
+capabilities:                # must be available here, as <id>@<version>
+  - <capability-id>@1
+
+integrations:                # must be reachable here, as <id>@<version>
+  - <integration-id>@1
+
+constraints:                 # facts every change must respect here
+  - <constraint>
+
+setup:                       # where the automation lives — paths, not prose
+  - <path/to/devcontainer.json or script or pipeline>
+
+verification:                # how we know the environment matches this file
+  - <command>
+
+owner: <team or role>

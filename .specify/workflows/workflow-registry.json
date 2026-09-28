@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "workflows": {
+    "speckit": {
+      "name": "Full SDD Cycle",
+      "version": "1.0.1",
+      "description": "Runs specify \u2192 plan \u2192 tasks \u2192 implement with review gates",
+      "source": "bundled",
+      "installed_at": "2026-09-28T11:30:10.546386+00:00",
+      "updated_at": "2026-09-28T11:30:10.546397+00:00"
+    },
+    "system-change": {
+      "name": "System Change",
+      "version": "0.1.0",
+      "description": "Runs classify \u2192 human route gate \u2192 apply \u2192 review gate for work that is not a feature spec",
+      "source": "workflows\\system-change",
+      "installed_at": "2026-09-28T11:31:16.793697+00:00",
+      "updated_at": "2026-09-28T11:51:59.002708+00:00"
+    }
+  }
+}

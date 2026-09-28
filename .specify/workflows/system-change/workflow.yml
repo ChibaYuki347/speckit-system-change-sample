@@ -1,0 +1,67 @@
+schema_version: "1.0"
+workflow:
+  id: "system-change"
+  name: "System Change"
+  version: "0.1.0"
+  author: "Yuki Chiba"
+  description: "Runs classify → human route gate → apply → review gate for work that is not a feature spec"
+
+requires:
+  # Composes the system-change extension (extensions/system-change/extension.yml).
+  speckit_version: ">=1.0.0"
+
+inputs:
+  request:
+    type: string
+    required: true
+    prompt: "What needs to change? (plain words, e.g. 'we can't tell which requests are slow')"
+  slug:
+    type: string
+    required: true
+    prompt: "Change slug (short kebab-case name, e.g. add-observability)"
+  integration:
+    type: string
+    default: "auto"
+    prompt: "Integration to use ('auto' uses the project's initialized integration)"
+
+steps:
+  - id: classify
+    command: speckit.system-change.classify
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.request }} slug={{ inputs.slug }}"
+
+  # A human confirms the route. The agent proposes; it does not decide.
+  - id: confirm-route
+    type: gate
+    message: "Read the classification. Which route should this change take?"
+    show_file: ".specify/system-changes/{{ inputs.slug }}/classification.md"
+    options: [system-change, feature-change, reject]
+    on_reject: abort
+
+  - id: route
+    type: switch
+    expression: "{{ steps.confirm-route.output.choice }}"
+    cases:
+      system-change:
+        - id: apply
+          command: speckit.system-change.apply
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "slug={{ inputs.slug }}"
+
+        - id: list-changes
+          type: shell
+          run: "git status --short -- engineering .specify/system-changes"
+
+        - id: review-artifacts
+          type: gate
+          message: "Review the ADR, capability, contract and environment drafts, and tasks.md, before anyone implements them."
+          show_file: ".specify/system-changes/{{ inputs.slug }}/tasks.md"
+          options: [approve, reject]
+          on_reject: abort
+
+      feature-change:
+        - id: handoff
+          type: shell
+          run: "echo This is a Feature Change. Start it in your agent with /speckit-specify."

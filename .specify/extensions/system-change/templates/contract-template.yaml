@@ -1,0 +1,35 @@
+# Integration contract — how this system connects to ONE external tool or service,
+# and what each side can rely on. CURRENT state; git keeps the history.
+# If you replace the tool, the capability stays and this contract changes.
+
+id: <integration-id>         # kebab-case, stable
+name: <Provider → consumer, in words>
+version: 1                   # new version = breaking change for the other side
+status: planned              # planned | active | deprecated
+
+provider: <who exposes or produces>
+consumer: <who reads or calls>
+
+interface:
+  kind: <api | events | stdout-json-lines | files | sdk | mcp-server | ...>
+  format: <encoding, framing, auth — whatever the other side must know>
+  schema:                    # fields the consumer may rely on
+    <field>: { type: <type> }
+
+guarantees:                  # promises that hold for every exchange
+  - <guarantee>
+
+compatibility: >
+  Adding a field is allowed within a version. Removing or renaming one is a new
+  version and needs an ADR.
+
+failure_behaviour: >
+  <What happens when the other side is missing or slow.>
+
+capabilities: []             # capability ids this contract helps implement
+decisions: []                # ADR numbers
+
+verification:
+  - <contract test or check>
+
+owner: <team or role>

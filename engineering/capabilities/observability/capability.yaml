@@ -1,0 +1,35 @@
+id: observability
+name: Observability
+version: 1
+status: planned              # becomes active when the verification below passes
+
+purpose: >
+  Operators can see which requests are slow or failing, per route, without reading
+  the code or asking a developer.
+
+provides:
+  - one http.request event per request
+  - status and duration for every route
+
+not_provided:
+  - distributed tracing
+  - a metrics endpoint
+  - request or response bodies
+
+implemented_by:
+  integrations:
+    - log-collector@1
+  code:
+    - src/request-events.js
+
+consumers:
+  - operators on call
+  - specs/001-bookmark-export
+
+decisions:
+  - "0002"
+
+verification:
+  - npm test  # request-events suite: one event per request, exact key set, no query string
+
+owner: bookmarks-api maintainers

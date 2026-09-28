@@ -1,0 +1,5 @@
+# Lock file written by `specify workflow add`
+.specify/.workflow-install.lock
+
+# Workflow run state (`specify workflow run`)
+.specify/workflows/runs/
